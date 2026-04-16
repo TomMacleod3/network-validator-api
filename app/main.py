@@ -16,16 +16,13 @@ def home():
 @app.post("/validate/{config_id}")
 def validate(config_id : int, config: Config):
         errors = []
-        if not config.hostname:
-                errors.append("missing hostname")
+        if config.hostname.strip() == "":
+                errors.append("hostname is blank")
+        elif len(config.hostname) < 4:
+                errors.append("invalid hostname - must be at least 4 characters")
         
-        if not config.ip_address:
-                errors.append("missing IP address")
-        if not config.device_type:
-                errors.append("missing device type")
-
-        if config.ip_address is not ipaddress.IPv4Address:
-                errors.append("invalid IP address")
+        if config.device_type not in {"router", "switch", "firewall"}:
+                errors.append("device type is not supported")
 
         if errors:
                 return {"status": "error", "errors": errors}
