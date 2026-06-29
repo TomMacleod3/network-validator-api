@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from routes import validator
+from app.routes import validator
 
 
 app = FastAPI()

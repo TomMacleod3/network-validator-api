@@ -1,6 +1,7 @@
 from fastapi import APIRouter
-from services.validation import validate
-from models import Config
+from app.services.validation import validate
+from app.models import Config
+
 
 router =  APIRouter()
 

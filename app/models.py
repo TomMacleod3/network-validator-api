@@ -5,3 +5,6 @@ class Config(BaseModel):
         hostname: str
         ip_address: ipaddress.IPv4Address
         device_type: str
+        vendor: str
+        location: str
+        
