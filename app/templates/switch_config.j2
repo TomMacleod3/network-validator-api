@@ -1,0 +1,50 @@
+! Generated Switch Configuration
+! Vendor: {{ vendor }}
+! Location: {{ location }}
+
+hostname {{ hostname }}
+
+vlan 10
+ name USERS
+
+vlan 20
+ name VOICE
+
+vlan 30
+ name MANAGEMENT
+
+interface Vlan30
+ description Management SVI
+ ip address {{ ip_address }} 255.255.255.0
+ no shutdown
+
+interface GigabitEthernet1/0/1
+ description User Access Port
+ switchport mode access
+ switchport access vlan 10
+ spanning-tree portfast
+
+interface GigabitEthernet1/0/2
+ description Voice Access Port
+ switchport mode access
+ switchport access vlan 20
+ spanning-tree portfast
+
+interface GigabitEthernet1/0/48
+ description Uplink to Core
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20,30
+
+ip default-gateway 10.0.30.1
+
+snmp-server location {{ location }}
+snmp-server contact network-operations@example.com
+
+logging host 10.10.10.10
+ntp server 10.10.20.20
+
+line vty 0 4
+ transport input ssh
+ login local
+
+end

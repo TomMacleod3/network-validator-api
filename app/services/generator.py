@@ -11,10 +11,13 @@ def generate_template(config,template_name,template_dir="app/templates"):
             
             env = Environment(loader=FileSystemLoader(template_dir))
             template = env.get_template(template_name)
+            renderd_config = template.render(**config.dict())
+            print(renderd_config)
             return {
                 "status" : "success",
-                "generated_config" : template.render(**config.dict())
+                "Generated Config:" : renderd_config
             }
+            
 
         except TemplateNotFound:
             return f"Error: Template '{template_name}' not found in '{template_dir}'."
