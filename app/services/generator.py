@@ -2,10 +2,17 @@ from jinja2 import Environment, FileSystemLoader, TemplateNotFound
 import os
 from app.services.validation import validate
 
-def generate_template(config,template_name,template_dir="app/templates"):
+def config_type(config):
+    if config.device_type == "router":
+        return "router_config.j2"
+    if config.device_type == "switch":
+        return "switch_config.j2"
+    
+def generate_template(config,template_dir="app/templates"):
     validation = validate(config)
     if validation["status"] == "success":
         try:
+            template_name = config_type(config) 
             if not os.path.isdir(template_dir):
                 raise FileNotFoundError(f"Template directory '{template_dir}' not found.")
             
