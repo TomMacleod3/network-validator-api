@@ -1,9 +1,22 @@
+{% if vendor == "cisco" %}
 hostname {{ hostname }}
-
+!
 interface Loopback0
- ip address {{ ip_address }}
+ description Management loopback for {{ location }}
+ ip address {{ ip_address }} 255.255.255.255
+!
+router ospf 1
+ router-id {{ ip_address }}
+!
+end
 
-snmp-server location {{ location }}
+{% elif vendor == "juniper" %}
+set system host-name {{ hostname }}
+set system location {{ location }}
+set interfaces lo0 unit 0 description "Management loopback for {{ location }}"
+set interfaces lo0 unit 0 family inet address {{ ip_address }}/32
+set protocols ospf area 0.0.0.0 interface lo0.0
 
-! vendor: {{ vendor }}
-! device type: {{ device_type }}
+{% else %}
+Unsupported vendor: {{ vendor }}
+{% endif %}
