@@ -15,14 +15,13 @@ def generate_template(config,template_dir="app/templates"):
             template_name = config_type(config) 
             if not os.path.isdir(template_dir):
                 raise FileNotFoundError(f"Template directory '{template_dir}' not found.")
-            
             env = Environment(loader=FileSystemLoader(template_dir))
             template = env.get_template(template_name)
-            renderd_config = template.render(**config.dict())
-            print(renderd_config)
+            renderd_config = template.render(**config.model_dump())
+
             return {
                 "status" : "success",
-                "Generated Config:" : renderd_config
+                "config" : renderd_config
             }
             
 
