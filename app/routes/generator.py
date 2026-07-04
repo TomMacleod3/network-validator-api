@@ -6,6 +6,6 @@ from app.models import Config
 router =  APIRouter()
 
 
-@router.post("/generate-config")
+@router.post("/generate")
 def generate_config(config: Config):
         return generate_template(config)
