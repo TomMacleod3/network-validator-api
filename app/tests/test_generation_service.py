@@ -40,5 +40,10 @@ def test_generate_juniper_switch_config(make_config):
     assert "set system host-name juniper-switch-1" in result["config"]
     assert "family ethernet-switching interface-mode access" in result["config"]
 
+def test_incorrect_device_type(make_config):
+    config = make_config(device_type="foo")
+    result = generate_template(config)
+    assert result["status"] == "error"
+    assert "device type is not supported" in result["errors"]
 
 
